@@ -1,0 +1,17 @@
+<ul className="grid">
+                        <li>
+                            <a className='header'>MENU</a>
+                        </li>
+                        <li>
+                            <a href="#">SERVICE</a>
+                        </li>
+                        <li>
+                            <a href="">FEATURES</a>
+                        </li>
+                        <li>
+                            <a href="#">SUCCESS</a>
+                        </li>
+                        <li>
+                            <a href="#">CONTACT</a>
+                        </li>
+                    </ul>
