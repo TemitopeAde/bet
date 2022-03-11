@@ -20,7 +20,7 @@ const Theme = createTheme({
         h3: {
           fontSize: '2.5rem',
           fontWeight: 'bolder',
-          color: '#021d25',
+          // color: '#021d25',
           fontFamily: 'Montserrat',
           textAlign: 'center',
           color: '#fff'
@@ -55,7 +55,13 @@ const Theme = createTheme({
             fontWeight: 'bolder',
             fontSize: '1.5rem'
         }
+      },
+    
+    button: {
+      primary: {
+        main: '#fff'
       }
+    }  
     
   })
 

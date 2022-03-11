@@ -8,7 +8,6 @@ import {Hero_Data} from '../Data/Home/Hero';
 import Container from '@mui/material/Container';
 import Link from '@mui/material/Link';
 import LoginIcon from '@mui/icons-material/Login';
-import Input from '@mui/material/Input';
 import TextField from '@mui/material/TextField';
 import FacebookIcon from '@mui/icons-material/Facebook';
 import InstagramIcon from '@mui/icons-material/Instagram';
@@ -18,11 +17,33 @@ import { ThemeProvider } from '@mui/material/styles';
 import Button from '@mui/material/Button';
 import SendIcon from '@mui/icons-material/Send';
 import Theme from '../styled/Theme';
+import Header from '../component/header';
+import one from '../images/1.jpg';
+import two from '../images/2.jpg';
+import three from '../images/3.jpg';
+import four from '../images/4.jpg';
+import five from '../images/5.jpg';
+import six from '../images/6.jpg';
+import seven from '../images/7.png';
+import { Swiper, SwiperSlide } from 'swiper/react';
+import 'swiper/css';
+import "swiper/css/lazy";
+import "swiper/css/pagination";
+import { Pagination, Navigation,Lazy,  } from "swiper";
+import "swiper/css/navigation";
+
+
 
 const ariaLabel = { 'aria-label': 'description' };
 
+
+export const slider_data = [
+    one,two,three,four,five,six,seven
+]
+
+
 const Homepage = () => {
-    const {heading, text, btnText} = Hero_Data;
+    const {heading, text} = Hero_Data;
     const theme = useTheme();
     const isMd = useMediaQuery(theme.breakpoints.up('md'), {
       defaultMatches: true,
@@ -30,6 +51,7 @@ const Homepage = () => {
     
   return (
     <ThemeProvider theme={Theme}>
+        <Header />
         <Box>
             <Box
                 sx={{
@@ -475,6 +497,75 @@ const Homepage = () => {
                 </Container>
             </Box>
 
+            <Box
+                padding={2}
+                marginTop={8}
+                marginBottom={8}
+            >   
+                
+                <Container>
+                    <Typography
+                        variant="h4"
+                        sx={{marginBottom: '50px',textAlign: 'center'}}
+                    >
+                        TEAM SUCCESS
+                    </Typography>
+                    <Swiper
+                        style={{
+                            "--swiper-navigation-color": "#021d25",
+                            "--swiper-pagination-color": "#021d25",
+                        }}
+                        breakpoints={{
+                            640: {
+                                slidesPerView: 1,
+                                spaceBetween: 20,
+                                slidesPerGroup: 1
+                            },
+                            768: {
+                                slidesPerView: 1,
+                                spaceBetween: 40,
+                                slidesPerGroup: 1
+                            },
+                            1024: {
+                                slidesPerView: 1,
+                                spaceBetween: 50,
+                            },
+                        }}
+                        lazy={true}
+                        slidesPerView={1}
+                        slidesPerGroup={3}
+                        spaceBetween={50}
+                        loop={true}
+                        loopFillGroupWithBlank={true}
+                        pagination={{
+                            clickable: true,
+                        }}
+                        navigation={true}
+                        modules={[Lazy,Pagination, Navigation]}
+                        
+                    >
+                        {slider_data.map((items,i) => (
+                            <SwiperSlide>
+                                <Box
+                                    component="img"
+                                    width={1}
+                                    src={items}
+                                    alt="..."
+                                    sx={{
+                                        height: '450px',
+                                        width: '450px'
+                                    }}
+                                >
+
+                                </Box>    
+                            
+                        
+
+                            </SwiperSlide>
+                        ))}
+                    </Swiper>
+                </Container>
+            </Box>                 
 
             <Box
                 sx={{
@@ -503,7 +594,8 @@ const Homepage = () => {
                             JOIN NOW
                             <LoginIcon
                                 sx={{
-                                    marginLeft: '10px'
+                                    marginLeft: '10px',
+                                    textAlign: 'center'
                                 }}
                             />
                         </a>
@@ -751,7 +843,10 @@ const Homepage = () => {
                 </Container>   
                 
             
-            </Box>                   
+            </Box>
+            
+            
+                             
         </Box>
     </ThemeProvider>
   )

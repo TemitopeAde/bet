@@ -16,7 +16,8 @@ import LoginIcon from '@mui/icons-material/Login';
 import Stack from '@mui/material/Stack';
 import HowToRegIcon from '@mui/icons-material/HowToReg';
 import Divider from '@mui/material/Divider';
-// import Container from '../component/container';
+import { useAuth0 } from '@auth0/auth0-react';
+
 
 
 
@@ -27,6 +28,9 @@ const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
 const Header = () => {
   const [anchorElNav, setAnchorElNav] = React.useState(null);
   const [anchorElUser, setAnchorElUser] = React.useState(null);
+  const { isAuthenticated, loginWithRedirect, logout  } = useAuth0();
+ 
+ 
 
   const handleOpenNavMenu = (event) => {
     setAnchorElNav(event.currentTarget);
@@ -117,8 +121,8 @@ const Header = () => {
               spacing={2}
               divider={<Divider orientation="vertical" flexItem />}
             >
-              <Button color="success" endIcon={<LoginIcon />} size="large" variant="outlined" sx={{color: '#fff'}}>LOGIN</Button>
-              <Button color="success" size="large" variant="contained" endIcon={<HowToRegIcon />}>REGISTER</Button>
+              {isAuthenticated? <Button onClick={() => logout({ returnTo: window.location.origin })} color="success" endIcon={<LoginIcon />} size="large" variant="outlined" sx={{color: '#fff'}}>LOGOUT</Button> : <Button onClick={() => loginWithRedirect()}  color="success" size="large" variant="contained" endIcon={<HowToRegIcon />}>REGISTER</Button>}
+              
             </Stack>
           </Box>
         </Toolbar>
