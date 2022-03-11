@@ -1,0 +1,11 @@
+lazy={true}
+                        slidesPerView={2}
+                        slidesPerGroup={3}
+                        spaceBetween={50}
+                        loop={true}
+                        loopFillGroupWithBlank={true}
+                        pagination={{
+                            clickable: true,
+                        }}
+                        navigation={true}
+                        modules={[Lazy,Pagination, Navigation]}

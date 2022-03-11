@@ -31,8 +31,10 @@ import "swiper/css/lazy";
 import "swiper/css/pagination";
 import { Pagination, Navigation,Lazy,  } from "swiper";
 import "swiper/css/navigation";
-
-
+import hero from '../images/hero.png'
+import contact from '../images/contact.jpg';
+import about1 from '../images/win.jpeg';
+import about2 from '../images/win2.jpeg';
 
 const ariaLabel = { 'aria-label': 'description' };
 
@@ -105,7 +107,9 @@ const Homepage = () => {
                         <Grid xs={6} item>
                             <Box
                                 component={'img'}
-                                src={'https://freesvg.org/img/businessman-with-sword.png'}
+                                src={hero}
+                                height={1}
+                                width={1}
                             >
                             
                             </Box>
@@ -244,7 +248,9 @@ const Homepage = () => {
                         <Grid xs={6} item>
                             <Box
                                 component={'img'}
-                                src={'https://freesvg.org/img/businessman-with-sword.png'}
+                                src={about1}
+                                width={1}
+                                height={1}
                             >
 
                             </Box>
@@ -376,7 +382,9 @@ const Homepage = () => {
                         <Grid xs={6} item>
                             <Box
                                 component={'img'}
-                                src={'https://freesvg.org/img/businessman-with-sword.png'}
+                                src={about2}
+                                height={1}
+                                width={1}
                             >
 
                             </Box>
@@ -506,7 +514,7 @@ const Homepage = () => {
                 <Container>
                     <Typography
                         variant="h4"
-                        sx={{marginBottom: '50px',textAlign: 'center'}}
+                        sx={{marginBottom: '50px',textAlign: 'center', fontSize: '3rem'}}
                     >
                         TEAM SUCCESS
                     </Typography>
@@ -515,33 +523,28 @@ const Homepage = () => {
                             "--swiper-navigation-color": "#021d25",
                             "--swiper-pagination-color": "#021d25",
                         }}
-                        breakpoints={{
-                            640: {
-                                slidesPerView: 1,
-                                spaceBetween: 20,
-                                slidesPerGroup: 1
-                            },
-                            768: {
-                                slidesPerView: 1,
-                                spaceBetween: 40,
-                                slidesPerGroup: 1
-                            },
-                            1024: {
-                                slidesPerView: 1,
-                                spaceBetween: 50,
-                            },
-                        }}
-                        lazy={true}
                         slidesPerView={1}
-                        slidesPerGroup={3}
-                        spaceBetween={50}
+                        spaceBetween={10}
                         loop={true}
                         loopFillGroupWithBlank={true}
                         pagination={{
                             clickable: true,
                         }}
-                        navigation={true}
-                        modules={[Lazy,Pagination, Navigation]}
+                        breakpoints={{
+                        640: {
+                            slidesPerView: 1,
+                            spaceBetween: 20,
+                        },
+                        768: {
+                            slidesPerView: 2,
+                            spaceBetween: 40,
+                        },
+                        1024: {
+                            slidesPerView: 3,
+                            spaceBetween: 50,
+                        },
+                        }}
+                        modules={[Pagination,Lazy, Navigation]}
                         
                     >
                         {slider_data.map((items,i) => (
@@ -624,11 +627,9 @@ const Homepage = () => {
                         <Grid xs={6} item>
                             <Box
                                 component={'img'}
-                                src={'https://tradermoes.io/images/mail-icon.svg'}
-                                sx ={{
-                                    width: '100%',
-                                    height: '100%'
-                                }}
+                                src={contact}
+                                width={1}
+                                height={1}
                             >
     
                             </Box>
