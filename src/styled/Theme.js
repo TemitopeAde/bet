@@ -13,6 +13,9 @@ const Theme = createTheme({
       },
       black: {
           main: '#000'
+      },
+      green: {
+        main: '#00db92'
       }
     },
     typography: {
@@ -54,14 +57,11 @@ const Theme = createTheme({
             color: '#00db92',
             fontWeight: 'bolder',
             fontSize: '1.5rem'
-        }
+        },
+        
       },
     
-    button: {
-      primary: {
-        main: '#fff'
-      }
-    }  
+    
     
   })
 

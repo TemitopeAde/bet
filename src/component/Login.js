@@ -7,49 +7,80 @@ import Button from '@mui/material/Button';
 import { ThemeProvider } from "@mui/private-theming";
 import Theme from "../styled/Theme";
 import SendIcon from '@mui/icons-material/Send';
+import { Grid } from "@mui/material";
+import useMediaQuery from '@mui/material/useMediaQuery';
+import { useTheme } from '@mui/material/styles';
+import login from '../images/login.jpg';
+
 
 const LoginButton = () => {
   const { loginWithRedirect } = useAuth0();
+  const theme = useTheme();
+  const isMd = useMediaQuery(theme.breakpoints.up('md'), {
+    defaultMatches: true,
+  });
 
   return (
       <ThemeProvider theme={Theme}>
         <Box
-            sx={{
-                background: '#021d25',
-                height: '100vh',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',          
-            }}
+            paddingY={4}
+            height={1}
         >
-            <Container
-                sx={{
-                    width: '500px',
-                    boxShadow: 'rgba(99, 99, 99, 0.2) 0px 2px 8px 0px',
-                    padding: '5rem 3rem'
-                }}
+            <Grid 
+                container 
+                spacing={4} 
+                direction={isMd ? 'row' : 'column'}
+                sx={{alignItems: 'center'}}
             >
-                <Typography
-                    variant="h5"
-                    sx={{
-                        marginBottom: '35px',
-                    
-                    }}
-                    color='white'
-                >
-                    LOGIN WITH DISCORD
-                </Typography>
+                <Grid item xs={6}>
+                    <Box 
+                        component={'img'}
+                        width={1}
+                        height={1}
+                        src={login}
+                    >
 
-                <Button
-                    onClick={() => loginWithRedirect()}
-                    variant="contained"
-                    endIcon={<SendIcon />}
-                    size="large"
-                    color="primary"
-                >
-                    LOGIN
-                </Button>
-            </Container>
+                    </Box>
+                </Grid>
+                <Grid item xs={6}>
+                    <Box>
+                        <Typography
+                            variant="h3"
+                            sx={{
+                                mb: 2,
+                                fontFamily: 'Raleway',
+                                color: '#021d25',
+                                fontWeight: 'bolder'
+                            }}
+                        >
+                            WELCOME BACK
+                        </Typography>
+                        <Typography 
+                            variant="body1"
+                            sx={{
+                                mb: 2,
+                                fontFamily: 'Montserrat'
+                            }}
+                        >
+                            To keep connected with us, please login with Discord
+                        </Typography>
+                        <Button
+                            onClick={() => loginWithRedirect()}
+                            variant="contained"
+                            endIcon={<SendIcon />}
+                            size="large"
+                            
+                            sx={{ 
+                                backgroundColor: '#00db92', 
+                                width: '250px',
+                                fontFamily: 'Raleway',
+                            }}
+                        >
+                            LOGIN NOW
+                        </Button>
+                    </Box>
+                </Grid>
+            </Grid>
         </Box>
       </ThemeProvider>
       

@@ -17,7 +17,7 @@ import { ThemeProvider } from '@mui/material/styles';
 import Button from '@mui/material/Button';
 import SendIcon from '@mui/icons-material/Send';
 import Theme from '../styled/Theme';
-import Header from '../component/header';
+import { useAuth0 } from "@auth0/auth0-react";
 import one from '../images/1.jpg';
 import two from '../images/2.jpg';
 import three from '../images/3.jpg';
@@ -33,8 +33,18 @@ import { Pagination, Navigation,Lazy,  } from "swiper";
 import "swiper/css/navigation";
 import hero from '../images/hero.png'
 import contact from '../images/contact.jpg';
-import about1 from '../images/win.jpeg';
+import logo from '../images/logo.png';
 import about2 from '../images/win2.jpeg';
+import { CircularProgressbar } from 'react-circular-progressbar';
+import 'react-circular-progressbar/dist/styles.css';
+import Header from '../component/Header';
+import unknown from '../images/unknown.png';
+import { useFormik } from 'formik';
+import * as yup from 'yup';
+import FormGroup from '@mui/material/FormGroup';
+import FormControlLabel from '@mui/material/FormControlLabel';
+import Checkbox from '@mui/material/Checkbox';
+
 
 const ariaLabel = { 'aria-label': 'description' };
 
@@ -43,14 +53,46 @@ export const slider_data = [
     one,two,three,four,five,six,seven
 ]
 
+const validationSchema = yup.object({
+    email: yup
+      .string('Enter your email')
+      .email('Enter a valid email')
+      .required('Email is required'),
+    fullName: yup
+      .string('Enter your Fullnames')
+      .min(8, 'Fullname should be of minimum 5 characters length')
+      .required('Fullname is required'),
+    message: yup
+    .string('Enter your Message')
+    .min(8, 'Message should be of minimum 8 characters length')
+    .required('Message is required'),
+  });
+  
 
+
+    
 const Homepage = () => {
+    const { loginWithRedirect } = useAuth0();
+    const value = 0.66;
     const {heading, text} = Hero_Data;
     const theme = useTheme();
     const isMd = useMediaQuery(theme.breakpoints.up('md'), {
       defaultMatches: true,
     });
     
+    const formik = useFormik({
+        initialValues: {
+          email: '',
+          fullName: '',
+          message: ''
+        },
+        validationSchema: validationSchema,
+        onSubmit: (values) => {
+          alert(JSON.stringify(values, null, 2));
+        },
+    });
+
+    const label = "I consent to receiving marketing communications Trader Moes at the e-mail address provided above."
   return (
     <ThemeProvider theme={Theme}>
         <Header />
@@ -70,21 +112,14 @@ const Homepage = () => {
                         container  
                         spacing={4}
                         direction={isMd ? 'row' : 'column'}
+                        sx={{alignItems: 'center'}}
                     >
                         <Grid xs={6} item>
                             <Box
                                 sx={{
                                         textAlign: 'left'
                                 }}
-                            >   <Typography variant='subtitle1' 
-                                    sx={{ 
-                                        marginBottom: '15px',
-                                        
-                                    }}
-
-                                >
-                                    {text}
-                                </Typography>
+                            >   
                                 <Typography 
                                     variant='h3'
                                     sx={{
@@ -97,8 +132,16 @@ const Homepage = () => {
                                 >
                                     {heading}
                                 </Typography>
-                                
-                                <button className="button-large">
+                                <Typography variant='subtitle1' 
+                                    sx={{ 
+                                        marginBottom: '35px',
+                                        textTransform: 'uppercase'
+                                    }}
+
+                                >
+                                    {text}
+                                </Typography>
+                                <button onClick={() => loginWithRedirect()} className="button-large">
                                     Join Now
                                 </button>
                             </Box>
@@ -107,8 +150,8 @@ const Homepage = () => {
                         <Grid xs={6} item>
                             <Box
                                 component={'img'}
-                                src={hero}
-                                height={1}
+                                src={unknown}
+                                height="550px"
                                 width={1}
                             >
                             
@@ -125,7 +168,7 @@ const Homepage = () => {
                     textAlign: 'left',
                     paddingTop: '6rem',
                     paddingBottom: '4rem',
-                    height: '450px'
+                    minHeight: '80vh'
                 }}
             >
                 <Container>
@@ -165,7 +208,8 @@ const Homepage = () => {
                                 color: '#021d25',
                                 fontSize: '1.2rem',
                                 fontWeight: 'bolder',
-                                opacity: '.8'
+                                opacity: '.8',
+                                marginTop: '25px'
                             }}
                         >
                             The average bettor researches a hand full of data points when making decisions. Our prediction model researches over hundreds of data points from each sport, down to the individual player level.
@@ -185,27 +229,32 @@ const Homepage = () => {
             <Box
                 sx={{
                     background: '#021d25',
-                    height: '450px',
                     display: 'flex',
                     alignItems: 'center',
                     justifyContent: 'center'
                 }}
+        
+
             >
                 <Container
-                    
+                    sx={{
+                        paddingBottom: '8rem',
+                        paddingTop: '8rem'
+                    }}
                 >
                     <Typography
-                        variant="h3"
+                        variant="subtitle1"
                         sx={{
                             
                             marginBottom: '19px',
                             textAlign: 'center',
                             margin: '20px auto',
-                            width: '70%',
+                            
+                            fontSize: '3rem'
                         }}
                         
                     >
-                        The Science
+                        Data Science meets Sports Betting
                     </Typography>
                     <Typography 
                         variant='body1'
@@ -213,7 +262,7 @@ const Homepage = () => {
                             color: '#fff',
                             fontSize: '1.2rem',
                             fontWeight: '700',
-                            width: '70%',
+                            width: '90%',
                             margin: '0 auto'
                         }}
                     >
@@ -248,7 +297,7 @@ const Homepage = () => {
                         <Grid xs={6} item>
                             <Box
                                 component={'img'}
-                                src={about1}
+                                src={logo}
                                 width={1}
                                 height={1}
                             >
@@ -306,7 +355,6 @@ const Homepage = () => {
                                 <Box
                                     sx={{
                                         flexGrow: 1,
-                                        
                                     }}
                                 >
                                     <Typography 
@@ -381,12 +429,113 @@ const Homepage = () => {
                     >
                         <Grid xs={6} item>
                             <Box
-                                component={'img'}
-                                src={about2}
                                 height={1}
                                 width={1}
                             >
+                                <Grid 
+                                    container 
+                                    spacing={4} 
+                                    direction={isMd? 'row': 'column'}
+                                    sx={{alignItems: 'center'}}
+                                >
+                                    <Grid xs={6} item>
+                                        <Box
+                                        sx={{
+                                                display: 'flex',
+                                                alignItems: 'center',
+                                                justifyContent: 'center',
+                                                flexDirection: 'column',
+                                                gap: '10px'
+                                            }}
+                                        >
 
+                                            <Box sx={{ width: '300px'}} component="div">
+                                                <CircularProgressbar value={value} maxValue={1} text={`${value * 100}%`} />;
+                                            </Box>
+                                            
+                                            <Typography variant="h6">
+                                                WIN RATE
+                                            </Typography>
+                                        </Box>
+                                    </Grid>
+                                    <Grid xs={6} item>
+                                        <Grid container spacing={2}>
+                                            <Grid item xs={6}>
+                                                <Box
+                                                    sx={{
+                                                        display: 'flex',
+                                                        alignItems: 'center',
+                                                        justifyContent: 'center',
+                                                        flexDirection: 'column',
+                                                        gap: '10px'
+                                                    }}
+                                                >
+                                                <Box
+                                                    component={'div'}
+                                                    sx={{
+                                                        borderRadius: '50%',
+                                                        backgroundColor: '#00db92',
+                                                        height: '150px',
+                                                        width: '150px',
+                                                        display: 'flex',
+                                                        alignItems: 'center',
+                                                        justifyContent: 'center',
+                                                        flexDirection: 'column'
+                                                    }}
+                                                >
+                                                    <Typography
+                                                        sx={{color: '#fff', fontWeight: 'bolder', fontSize: '1.5rem'}}
+                                                    >
+                                                        +30.2u 
+                                                    </Typography>
+                                                    
+                                                </Box>
+                                                <Typography variant="h6">
+                                                        NHL Totals
+                                                </Typography>
+                                                </Box>
+                                            </Grid>
+                                            <Grid item xs={6}>
+                                                <Box
+                                                    sx={{
+                                                        display: 'flex',
+                                                        alignItems: 'center',
+                                                        justifyContent: 'center',
+                                                        flexDirection: 'column',
+                                                        gap: '10px'
+                                                    }}
+                                                >
+                                                <Box
+                                                    component={'div'}
+                                                    sx={{
+                                                        borderRadius: '50%',
+                                                        backgroundColor: '#00db92',
+                                                        height: '150px',
+                                                        width: '150px',
+                                                        display: 'flex',
+                                                        alignItems: 'center',
+                                                        justifyContent: 'center',
+                                                        flexDirection: 'column',
+                                                        
+                                                    }}
+                                                >
+                                                    <Typography
+                                                        sx={{color: '#fff', fontWeight: 'bolder', fontSize: '1.5rem'}}
+                                                    >
+                                                        14.2% 
+                                                    </Typography>
+                                                    
+                                                </Box>
+                                                <Typography variant="h6">
+                                                    ROI%
+                                                </Typography>
+                                                </Box>
+                                            </Grid>
+                                        </Grid>
+                                        
+                                        
+                                    </Grid>
+                                </Grid>
                             </Box>
                         </Grid>
                         <Grid xs={6} item>
@@ -526,6 +675,7 @@ const Homepage = () => {
                         slidesPerView={1}
                         spaceBetween={10}
                         loop={true}
+                        navigation={true}
                         loopFillGroupWithBlank={true}
                         pagination={{
                             clickable: true,
@@ -580,7 +730,9 @@ const Homepage = () => {
                 }}
             >
                 <Container
-                    
+                    sx={{
+                        textAlign: 'center'
+                    }}
                 >
                     <Typography
                         variant="h3"
@@ -592,17 +744,25 @@ const Homepage = () => {
                     >
                         SIGN UP FOR ONLY $19/MONTH!
                     </Typography>
-                    <button className="button-large">
-                        <a>
-                            JOIN NOW
-                            <LoginIcon
-                                sx={{
-                                    marginLeft: '10px',
-                                    textAlign: 'center'
-                                }}
-                            />
-                        </a>
-                    </button>
+                    <Button
+                        sx={{
+                            border: 'none',
+                            borderRadius: '10px',
+                            fontWeight: 'bold',
+                            fontSize: '27px',
+                            letterSpacing: '1px',
+                            color: '#FFFFFF',
+                            padding: '20px 10px 18px',
+                            width: '265px',
+                            textIndent: '-46px',
+                            background: '#00DB92',
+                            boxShadow: '0 0 10px rgb(0 219 146 / 30%)',
+                            backgroundSize: '28px 21px'
+                        }}
+                    >
+                        JOIN NOW
+                    </Button>
+                    
                 </Container>
 
             </Box>
@@ -635,82 +795,119 @@ const Homepage = () => {
                             </Box>
                         </Grid>
                         <Grid xs={6} item>
-                        <Box>
-                        <Typography 
-                            variant="h4"
-                            sx = {{
-                                marginBottom: '10px'
-                            }}
-                        >
-                            CONTACT US
-                        </Typography>
-                        <Typography
-                            variant='subtitle1'
+                        <Box
                             sx={{
-                                marginBottom: '40px',
-                            }}
+                                textAlign: 'left'
+                            }} 
                         >
-                            Any questions or remarks? Send us a message!
-                        </Typography>
-                    </Box>
+                            <Typography 
+                                variant="h4"
+                                sx = {{
+                                    marginBottom: '10px'
+                                }}
+                            >
+                                CONTACT US
+                            </Typography>
+                            <Typography
+                                variant='subtitle1'
+                                sx={{
+                                    marginBottom: '40px',
+                                }}
+                            >
+                                Any questions or remarks? Send us a message!
+                            </Typography>
+                        </Box>
                             <Box
                                 component="form"
                                 sx={{
                                     marginTop: '40px'
                                 }}
-                            >
-                                <Grid
-                                    spacing={2}
-                                    container
-                                    direction={'row'}
-                                >
-                                    <Grid item xs={6}>
-                                        <TextField
-                                            id="standard-search"
-                                            label="Name"
-                                            name="name"
-                                            type="text"
-                                            variant="standard"
-                                            fullWidth
-                                            InputProps={{ style: { fontSize:26, color: '#021d25' } }}
-                                            InputLabelProps={{ style: { fontSize: 26, color: '#021d25' } }}
-                                        />
-                                    </Grid>
-                                    <Grid item xs={6}>
-                                        <TextField
-                                            id="standard-search"
-                                            label="Email"
-                                            type="email"
-                                            name="email"
-                                            variant="standard"
-                                            fullWidth
-                                            InputProps={{ style: { fontSize:26, color: '#021d25' } }}
-                                            InputLabelProps={{ style: { fontSize: 26, color: '#021d25' } }}
-                                        />
-                                    </Grid>
-                                </Grid>
+                            >   
                                 
-                                <Box sx={{marginTop: '30px'}}>
-                                    <TextField
-                                        id="standard-multiline-static"
-                                        label="Message"
-                                        multiline
-                                        rows={6}
-                                        variant="standard"
-                                        fullWidth
-                                        InputProps={{ style: { fontSize:26, color: '#021d25' } }}
-                                        InputLabelProps={{ style: { fontSize: 26, color: '#021d25' } }}
-                                    />
-                                </Box>
-                                <Box 
-                                    sx={{
-                                        textAlign: "left"
-                                    }}
-                                >
-                                    <Button sx={{ marginTop: '20px'}} color="primary" endIcon={<SendIcon />} type="submit" variant="contained" size="large">
-                                        Submit
-                                    </Button>
-                                </Box>
+
+                                    
+                                        <form onSubmit={formik.handleSubmit}>
+                                            <Grid container spacing={2}>
+                                                <Grid item xs={6}>
+                                                    <TextField
+                                                        name="fullName" 
+                                                        placeholder="Full Name"
+                                                        InputProps={{ style: { fontSize:26, color: '#021d25' } }}
+                                                        InputLabelProps={{ style: { fontSize: 26, color: '#021d25' } }}
+                                                        label="Full Name"
+                                                        type="text"
+                                                        variant="standard"
+                                                        fullWidth
+                                                        value={formik.values.fullName}
+                                                        onChange={formik.handleChange}
+                                                        error={
+                                                        formik.touched.fullName &&
+                                                        Boolean(formik.errors.fullName)
+                                                        }
+                                                        helperText={
+                                                            formik.touched.fullName && formik.errors.fullName
+                                                        }  
+                                                    />
+                                                    
+                                                </Grid>
+
+                                                <Grid item xs={6}>
+                                                    <TextField 
+                                                        name="email" 
+                                                        placeholder="Enter Email"
+                                                        InputProps={{ style: { fontSize:26, color: '#021d25' } }}
+                                                        InputLabelProps={{ style: { fontSize: 26, color: '#021d25' } }}
+                                                        label="Email"
+                                                        type="text"
+                                                        variant="standard"
+                                                        fullWidth
+                                                        value={formik.values.email}
+                                                        onChange={formik.handleChange}
+                                                        error={
+                                                        formik.touched.email &&
+                                                        Boolean(formik.errors.email)
+                                                        }
+                                                        helperText={
+                                                            formik.touched.eamil && formik.errors.email
+                                                        }  
+                                                    />
+                                                    
+                                                </Grid>
+                                            </Grid>
+
+                                            <Grid container>
+                                                <Grid xs={12} item>
+                                                    <TextField 
+                                                        name="message" 
+                                                        placeholder="Enter your message" 
+                                                        id="standard-multiline-static"
+                                                        label="Message"
+                                                        multiline
+                                                        rows={6}
+                                                        variant="standard"
+                                                        fullWidth
+                                                        InputProps={{ style: { fontSize:26, color: '#021d25' } }}
+                                                        InputLabelProps={{ style: { fontSize: 26, color: '#021d25' } }}
+                                                        value={formik.values.message}
+                                                        onChange={formik.handleChange}
+                                                        error={
+                                                        formik.touched.message &&
+                                                        Boolean(formik.errors.message)
+                                                        }
+                                                        helperText={
+                                                            formik.touched.message && formik.errors.message
+                                                        }  
+                                                    />
+                                                    
+                                                </Grid>
+                                            </Grid>                
+                                            <Button sx={{ marginTop: '20px'}} color="primary" endIcon={<SendIcon />} type="submit" variant="contained" size="large">
+                                                Submit
+                                            </Button>
+                                        </form>
+                                   
+                                    
+                               
                             </Box>
                         </Grid>        
                     </Grid>
@@ -735,8 +932,9 @@ const Homepage = () => {
                         xs={3}
                         item
                     >   
-                        <a href="#">LOGO</a>
-                        <h4>Contact: <a href="#"> contact@es.io</a> </h4>
+
+                        <Typography sx={{marginBottom: '15px',opacity: '1'}} variant="h6"><Link sx={{opacity: '1',color: '#fff', fontFamily: 'Raleway'}} href="#">WiseWager</Link></Typography>
+                        <Typography sx={{opacity: "0.8",marginBottom: '10px'}}>Contact: <Link sx={{opacity: "0.6",color: '#fff'}} href="#"> contact@es.io</Link></Typography>
                         <Box>
                             <Grid
                                 direction={'row'}
@@ -748,7 +946,7 @@ const Homepage = () => {
 
 
                             <Grid
-                                spacing={2}
+                                spacing={4}
                                 direction={'row'}
                                 container
                                 sx={{
@@ -786,13 +984,15 @@ const Homepage = () => {
                         xs={3}
                         item
                     >   
-                        <h4>MENU</h4>
-                        <div className='dashboard'>
-                            <h4><a href="#">SERVICE</a></h4>
-                            <h4><a href="#">FEATURES</a></h4>
-                            <h4><a href="#">SUCCESS</a></h4>
-                            <h4><a href="#">CONTACT</a></h4>
-                        </div>
+                        <Typography sx={{marginBottom: '15px',color: "#fff", opacity: '1'}} variant="h5">MENU</Typography>
+                        <Box sx={{
+                            
+                        }}>
+                            <Typography sx={{marginBottom: '10px',fontFamily: 'Poppins',fontSize: '1.2rem'}} variant="h6"><Link sx={{ color: '#fff'}} href="#">SERVICE</Link></Typography>
+                            <Typography sx={{marginBottom: '10px',fontFamily: 'Poppins',fontSize: '1.2rem'}} variant="h6"><Link sx={{ color: '#fff'}} href="#">FEATURES</Link></Typography>
+                            <Typography sx={{marginBottom: '10px',fontFamily: 'Poppins',fontSize: '1.2rem'}} variant="h6"><Link sx={{ color: '#fff'}} href="#">SUCCESS</Link></Typography>
+                            <Typography sx={{marginBottom: '10px',fontFamily: 'Poppins',fontSize: '1.2rem'}} variant="h6"><Link sx={{ color: '#fff'}} href="#">CONTACT</Link></Typography>
+                        </Box>
                         
 
                     </Grid>
@@ -801,11 +1001,12 @@ const Homepage = () => {
                         xs={3}
                         item
                     >
-                        <h4>DASHBOARD</h4>
-                        <div className='dashboard'>
-                            <h4><a href="#">LOGIN</a></h4>
-                            <h4><a href="#">REGISTER</a></h4>
-                        </div>
+                        <Typography sx={{fontFamily: 'Raleway',opacity: '1', color: '#fff', marginBottom: '15px'}} variant="h6">DASHBOARD</Typography>
+                        <Box>
+                            <Typography sx={{marginBottom: '10px',fontFamily: 'Poppins',fontSize: '1.2rem'}} variant="h6"><Link sx={{color: '#fff'}} href="#">LOGIN</Link></Typography>
+                            <Typography sx={{marginBottom: '10px',fontFamily: 'Poppins',fontSize: '1.2rem'}} variant="h6"><Link sx={{color: '#fff'}} href="#">REGISTER</Link></Typography>
+                        </Box>
+                        
                         
                     </Grid>
                     
@@ -814,30 +1015,43 @@ const Homepage = () => {
                         item
                     >   
                     
-                        <h4>SUBSCRIBE FOR UPDATES</h4>
-                        <h5
-                            style={{ opacity: ".6" }}
-                        >Subscribe to receive notifications on upcoming restocks and promotions.</h5>
-                        <form>
-                            <div className="form__group field">
-                                <input type="input" className="form__field" placeholder="Email" name="email" id='email' />
-                                <label className="form__label">Email</label>
-                            </div>
+                        <Typography sx={{opacity: '1', color: "#fff", marginBottom: '15px'}} variant="h6">SUBSCRIBE FOR UPDATES</Typography>
+                        <Typography sx={{ opacity: ".6" }}>Subscribe to receive notifications on upcoming restocks and promotions.</Typography>
+                        <form  onSubmit={formik.handleSubmit}>
+                            <Box className="form__group field">
+                            <TextField 
+                                name="email" 
+                                placeholder="Enter Email"
+                                InputProps={{ style: { fontSize: "1.3rem", color: "#fff" } }}
+                                InputLabelProps={{ style: { fontSize: "1.3rem", color: "#fff" } }}
+                                label="Enter your Email"
+                                type="text"
+                                variant="standard"
+                                color="success"
+                                
+                                fullWidth
+                                value={formik.values.email}
+                                focused
+                                onChange={formik.handleChange}
+                                error={
+                                formik.touched.email &&
+                                Boolean(formik.errors.email)
+                                }
+                                helperText={
+                                    formik.touched.eamil && formik.errors.email
+                                }  
+                                />
+                                
+                            </Box>
 
-                            <Grid
-                                spacing={2}
-                                container
-                                sx={{
-                                    alignItems: 'center'
-                                }}
+                            <Box
+                                sx={{marginTop: '25px'}}    
                             >
-                                <Grid xs={2} item >
-                                    <input className="check" type="checkbox"  />
-                                </Grid>
-                                <Grid item xs={10}>
-                                    <h5>I consent to receiving marketing communications Trader Moes at the e-mail address provided above.</h5>
-                                </Grid>
-                            </Grid>
+                                <FormGroup>
+                                    <FormControlLabel control={<Checkbox />} label={label} />
+                                </FormGroup>
+                               
+                            </Box>
                         </form>
                     </Grid>
                 </Grid>
@@ -845,7 +1059,6 @@ const Homepage = () => {
                 
             
             </Box>
-            
             
                              
         </Box>

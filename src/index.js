@@ -11,11 +11,11 @@ ReactDOM.render(
   <React.StrictMode>
     <Router>
       <Auth0Provider
-        domain="dev-69i5qvyu.us.auth0.com"
-        clientId="n7MLVEpWz3LXGf4zvfhGD142HkX4EYNJ"
-        redirectUri="http://localhost:3000"
+        domain="http://dev-xyt4zujh.us.auth0.com"
+        clientId="dt3InxRJdRkzM3rENI1bKLs3Ik7uOLTy"
+        redirectUri={window.location.origin}
       >
-      <App />
+        <App />
       </Auth0Provider>,
     </Router>
   </React.StrictMode>,
